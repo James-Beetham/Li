@@ -13,7 +13,23 @@ import java.lang.reflect.Constructor;
  */
 public class Type {
 	private String type;
+	/**
+	 * Constructs a new type with parameter class name. The class name locator
+	 * is in the format: package.class[$nestedClass1][$nestedClass2]... If no
+	 * package is put, will assume to be in this package (version_five).
+	 * 
+	 * @param questionClassName
+	 *            name of the question class, note that the format will be the
+	 *            same as that used in Class.forName(String s).
+	 */
 	public Type(String questionClassName) {
+		if (!questionClassName.contains("."))
+			questionClassName = "version_five." + questionClassName;
+		try {
+			Class.forName(questionClassName);
+		} catch (ClassNotFoundException e) {
+			throw new IllegalArgumentException("Class specified does not exists: " + questionClassName);
+		}
 		this.type = questionClassName;
 	}
 	/**
@@ -24,14 +40,11 @@ public class Type {
 	 *            String of text to construct the question with.
 	 * @return new instance of the question specified by this type.
 	 */
-	public Question newQuestion(String info) {
+	public IQuestion newQuestion(String info) {
 		try {
-			Question z = new TestQuestion("test123");
-			System.out.println(type);
-			Class<?> cl = Class.forName("TestQuestion");
-			System.out.println("check 1");
-			Constructor con = cl.getConstructor(info.getClass());
-			return (Question) con.newInstance(info);
+			Class<?> cl = Class.forName(type);
+			Constructor<?> con = cl.getConstructor(info.getClass());
+			return (IQuestion) con.newInstance(info);
 		} catch (ClassNotFoundException e) {
 			throw new IllegalStateException("Class [" + type + "] does not exist");
 		} catch (NoSuchMethodException e) {

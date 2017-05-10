@@ -1,5 +1,7 @@
 package version_five;
 
+import static org.junit.Assert.*;
+
 import java.util.LinkedList;
 
 import org.junit.Before;
@@ -13,13 +15,27 @@ public class TypeTest {
 	}
 
 	@Test
-	public void test1() {
-		Type t = new Type("TestQuestion");
-		Question test = t.newQuestion("thisShouldBeTheData");
-		System.out.println(test.toString());
+	public void testToString() {
+		String msg = "Test toString method.";
+
+		String name = "version_five.TypeTest$Test1234";
+		Type t = new Type(name);
+
+		assertEquals(msg, name, t.toString());
 	}
 
-	public class Test1234 implements Question {
+	@Test
+	public void testNewQuestion() {
+		String msg = "Type generates new question.";
+
+		String type_msg = "This should be the string returned and stuff";
+		Type t = new Type("TypeTest$Test1234");
+		IQuestion q = t.newQuestion(type_msg);
+
+		assertEquals(msg, type_msg, q.toString());
+	}
+
+	public static class Test1234 implements IQuestion {
 		private String data;
 		public Test1234(String s) {
 			data = s;
@@ -29,16 +45,14 @@ public class TypeTest {
 			return null;
 		}
 		@Override
-		public String ask(Engine e) {
-			return null;
+		public void ask(IEngine e) {
 		}
 		@Override
 		public String[] getKeywords() {
 			return null;
 		}
-		public String toString() {
+		public String getString() {
 			return data;
 		}
 	}
-
 }
