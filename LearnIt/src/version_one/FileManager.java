@@ -8,9 +8,16 @@ import java.io.File;
  * @author JamesBeetham
  */
 public class FileManager {
+	private String path;
 
-	public FileManager() {
-		// TODO
+	/**
+	 * For development purposes only.
+	 * 
+	 * @param path
+	 *            path to store information.
+	 */
+	public FileManager(String path) {
+		this.path = path.charAt(path.length() - 1) == '/'? path : path + "/";
 	}
 
 	/**
@@ -32,6 +39,19 @@ public class FileManager {
 		 */
 		public LiFile(String fileName) {
 			// TODO
+		}
+
+		/**
+		 * Converts string to a standard name: all lowercase and no extension or
+		 * periods.
+		 * 
+		 * @param name
+		 *            name of the file
+		 * @return converted string
+		 */
+		private String getFileName(String name) {
+			// TODO
+			return null;
 		}
 	}
 }

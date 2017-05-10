@@ -1,5 +1,10 @@
 package version_one;
 
+/**
+ * Handles displaying information for the program.
+ * 
+ * @author JamesBeetham
+ */
 public class ProgramOutput {
 
 	public ProgramOutput() {
