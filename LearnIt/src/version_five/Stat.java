@@ -28,4 +28,7 @@ public class Stat {
 	public double getValue() {
 		return value;
 	}
+	public String toString() {
+		return time + "," + value;
+	}
 }

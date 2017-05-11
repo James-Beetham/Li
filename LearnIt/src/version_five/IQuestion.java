@@ -34,4 +34,11 @@ public interface IQuestion {
 	 * @return String representation of this
 	 */
 	public String getString();
+
+	public static String[] trimSplit(String str, String regex) {
+		String[] arr = str.split(regex);
+		for (int i = 0; i < arr.length; i++)
+			arr[i] = arr[i].trim();
+		return arr;
+	}
 }

@@ -3,9 +3,10 @@ package version_five;
 import java.util.Scanner;
 
 public class DefaultEngine implements IEngine {
+	private Scanner scan;
 
 	public DefaultEngine() {
-
+		scan = new Scanner(System.in);
 	}
 
 	@Override
@@ -15,15 +16,15 @@ public class DefaultEngine implements IEngine {
 
 	@Override
 	public String get() {
-		Scanner scan = new Scanner(System.in);
+		System.out.println();
 		String s = scan.nextLine();
-		scan.close();
 		return s;
 	}
 
 	public static void main(String[] args) {
 		DefaultEngine e = new DefaultEngine();
-		FileManager fm = new FileManager();
-		
+		DefaultFileManager fm = new DefaultFileManager();
+		CharTree<IQuestion> keywords = new CharTree<IQuestion>();
+		fm.load();
 	}
 }

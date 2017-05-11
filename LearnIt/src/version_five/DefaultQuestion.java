@@ -10,22 +10,22 @@ public class DefaultQuestion implements IQuestion {
 	// TODO figure out type stuff
 	/**
 	 * Constructs a new DefaultQuestion from specified info. The string should
-	 * start with the what to ask, then have a colon, then have the answer. The
-	 * statistics are formatted within brackets [] as an array with every even
-	 * index (i = 0, 2, 4, 6...) being the time, and every odd index being the
-	 * value.
+	 * start with the question, then have a ":", then have an answer, then have
+	 * another ":" and any stats that were with the question.
 	 * 
 	 * @param info
 	 *            String used to generate this question
 	 */
 	public DefaultQuestion(String info) {
-		String[] parts = info.split(":");
+		stats = new LinkedList<Stat>();
+		String[] parts = IQuestion.trimSplit(info, ":");
 		question = parts[0];
-		parts = parts[1].split("[");
-		answer = parts[0];
-		if (parts.length == 1)
+		answer = parts[1];
+		if (parts.length == 2)
 			return;
-		// TODO load stats
+		parts = IQuestion.trimSplit(parts[2], ",");
+		for (int i = 0; i < parts.length - 1; i += 2)
+			stats.add(new Stat(Long.parseLong(parts[i]), Double.parseDouble(parts[i + 1])));
 	}
 
 	@Override
@@ -35,18 +35,28 @@ public class DefaultQuestion implements IQuestion {
 
 	@Override
 	public void ask(IEngine e) {
-		
+		e.print(question);
+		if (e.get().equals(answer))
+			stats.add(new Stat(1));
+		else
+			stats.add(new Stat(0));
 	}
 
 	@Override
 	public String[] getKeywords() {
-		// TODO
-		return null;
+		String list = "defaultquestion,default question," + question + "," + answer;
+		// TODO add more things to the list
+		return list.split(",");
 	}
 
 	@Override
 	public String getString() {
-		return null;
+		String stat = "";
+		for (Stat s : stats) {
+			stat += s.toString() + ",";
+		}
+		stat.substring(0, stat.length() - 1);
+		return this.getClass().toString().substring(6) + "\t" + answer + ":" + question + ":" + stat;
 	}
 
 }
