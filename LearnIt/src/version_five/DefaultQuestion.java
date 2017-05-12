@@ -6,6 +6,7 @@ public class DefaultQuestion implements IQuestion {
 	private LinkedList<Stat> stats;
 	private String question;
 	private String answer;
+	private long nextTime;
 
 	// TODO figure out type stuff
 	/**
@@ -57,6 +58,21 @@ public class DefaultQuestion implements IQuestion {
 		}
 		stat.substring(0, stat.length() - 1);
 		return this.getClass().toString().substring(6) + "\t" + answer + ":" + question + ":" + stat;
+	}
+
+	@Override
+	public int compareTo(IQuestion arg0) {
+		return (int) (nextTime - arg0.getNextTime());
+	}
+
+	@Override
+	public long getNextTime() {
+		return nextTime;
+	}
+
+	@Override
+	public void setNextTime(long time) {
+		nextTime = time;
 	}
 
 }

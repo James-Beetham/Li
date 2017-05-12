@@ -7,9 +7,10 @@ import java.util.LinkedList;
  * @author JamesBeetham
  *
  */
-public interface IQuestion {
+public interface IQuestion extends Comparable<IQuestion> {
 
 	public LinkedList<Stat> getStats();
+
 	/**
 	 * Uses Engine e to ask a question, get an answer, and record the statistic.
 	 * 
@@ -17,6 +18,7 @@ public interface IQuestion {
 	 *            engine to use
 	 */
 	public void ask(IEngine e);
+
 	/**
 	 * Generates list of keywords from the class name, content, and other
 	 * things.
@@ -25,6 +27,7 @@ public interface IQuestion {
 	 *         question.
 	 */
 	public String[] getKeywords();
+
 	/**
 	 * Returns a string representation of all information stored in this
 	 * question. This is the string to be used in a question constructor that
@@ -34,6 +37,15 @@ public interface IQuestion {
 	 * @return String representation of this
 	 */
 	public String getString();
+
+	/**
+	 * Returns stored time this should be asked.
+	 * 
+	 * @return time of which to ask this question.
+	 */
+	public long getNextTime();
+
+	public void setNextTime(long time);
 
 	public static String[] trimSplit(String str, String regex) {
 		String[] arr = str.split(regex);
