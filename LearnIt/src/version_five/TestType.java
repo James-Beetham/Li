@@ -7,6 +7,12 @@ import java.util.LinkedList;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Basic tests for the Type class, could be expanded on.
+ * 
+ * @author JamesBeetham
+ *
+ */
 public class TestType {
 
 	@Before

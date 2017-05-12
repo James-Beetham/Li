@@ -13,6 +13,7 @@ import java.lang.reflect.Constructor;
  */
 public class Type {
 	private String type;
+
 	/**
 	 * Constructs a new type with parameter class name. The class name locator
 	 * is in the format: package.class[$nestedClass1][$nestedClass2]... If no
@@ -23,6 +24,8 @@ public class Type {
 	 *            same as that used in Class.forName(String s).
 	 */
 	public Type(String questionClassName) {
+		if (questionClassName == null)
+			throw new IllegalArgumentException("String questionClassName can not be null.");
 		if (!questionClassName.contains("."))
 			questionClassName = "version_five." + questionClassName;
 		try {
@@ -32,6 +35,7 @@ public class Type {
 		}
 		this.type = questionClassName;
 	}
+
 	/**
 	 * Returns a new instance of the class specified by the string this Type was
 	 * constructed with.
@@ -41,6 +45,8 @@ public class Type {
 	 * @return new instance of the question specified by this type.
 	 */
 	public IQuestion newQuestion(String info) {
+		if (info == null)
+			throw new IllegalArgumentException("String info can not be null.");
 		try {
 			Class<?> cl = Class.forName(type);
 			Constructor<?> con = cl.getConstructor(info.getClass());
@@ -54,9 +60,13 @@ public class Type {
 		}
 		return null;
 	}
+
+	@Override
 	public String toString() {
 		return type;
 	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == null || obj.getClass() != this.getClass())
 			return false;

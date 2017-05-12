@@ -1,16 +1,26 @@
 package version_five;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
+/**
+ * Default engine that uses command line to get commands.
+ * 
+ * @author JamesBeetham
+ *
+ */
 public class DefaultEngine implements IEngine {
 	private Scanner scan;
 
+	/**
+	 * Construct the default engine that uses command line to display and input
+	 * data.
+	 */
 	public DefaultEngine() {
 		scan = new Scanner(System.in);
 	}
@@ -44,11 +54,18 @@ public class DefaultEngine implements IEngine {
 		return null;
 	}
 
+	/**
+	 * Entry point to program.
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		DefaultEngine e = new DefaultEngine();
 		DefaultFileManager fm = new DefaultFileManager();
 		CharTree<IQuestion> keywords = new CharTree<IQuestion>();
-		List<String> strQuestions = fm.load();
+		
+			List<String> strQuestions = fm.load();
+
 
 		LinkedList<IQuestion> questions = new LinkedList<IQuestion>();
 		for (String s : strQuestions) {
@@ -84,6 +101,14 @@ public class DefaultEngine implements IEngine {
 					e.print("ask needs to be in the format of \"ask .91\" (number needs to be between 0 and 1: is a percent\n");
 				}
 			} else if (input.startsWith("import")) {
+				try {
+					List<String> qs = fm.loadPath(input.substring(6, input.length()).trim());
+
+				} catch (FileNotFoundException fnfe) {
+
+				} catch (Exception ex) {
+
+				}
 
 			} else if (input.startsWith("select")) {
 				try {
@@ -114,6 +139,17 @@ public class DefaultEngine implements IEngine {
 		e.print((fm.save(strQuestions) ? "Saved" : "Save Failed") + "\n");
 	}
 
+	/**
+	 * Ask the list of questions using engine e and analyzer a in order until
+	 * the predicted time for remembering of all the questions is in the future.
+	 * 
+	 * @param a
+	 *            analyzer to use to update the positions of the questions
+	 * @param e
+	 *            engine to use to display and input questions
+	 * @param questions
+	 *            list of questions to ask
+	 */
 	private static void ask(IAnalyzer a, IEngine e, List<IQuestion> questions) {
 		PriorityQueue<IQuestion> list = new PriorityQueue<IQuestion>(questions);
 		IQuestion q;

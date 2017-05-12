@@ -6,6 +6,12 @@ import java.util.LinkedList;
 
 import org.junit.Test;
 
+/**
+ * Basic test for the DefaultAnalyzer, could be expanded upon.
+ * 
+ * @author JamesBeetham
+ *
+ */
 public class TestDefaultAnalyzer {
 
 	@Test
@@ -32,8 +38,6 @@ public class TestDefaultAnalyzer {
 		assertEquals("Test when question has not yet been asked (exposed)", 0,
 				da1.nextTime(new DefaultQuestion("question:answer")));
 
-		
-		
 		System.out.println(System.currentTimeMillis() - startTime);
 	}
 

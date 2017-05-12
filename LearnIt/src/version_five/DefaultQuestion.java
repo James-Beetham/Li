@@ -2,13 +2,18 @@ package version_five;
 
 import java.util.LinkedList;
 
+/**
+ * Default question that has a specific question and answer.
+ * 
+ * @author JamesBeetham
+ *
+ */
 public class DefaultQuestion implements IQuestion {
 	private LinkedList<Stat> stats;
 	private String question;
 	private String answer;
 	private long nextTime;
 
-	// TODO figure out type stuff
 	/**
 	 * Constructs a new DefaultQuestion from specified info. The string should
 	 * start with the question, then have a ":", then have an answer, then have
@@ -18,6 +23,8 @@ public class DefaultQuestion implements IQuestion {
 	 *            String used to generate this question
 	 */
 	public DefaultQuestion(String info) {
+		if (info == null)
+			throw new IllegalArgumentException("String info can not be null.");
 		stats = new LinkedList<Stat>();
 		String[] parts = IQuestion.trimSplit(info, ":");
 		question = parts[0];
@@ -36,6 +43,8 @@ public class DefaultQuestion implements IQuestion {
 
 	@Override
 	public void ask(IEngine e) {
+		if (e == null)
+			throw new IllegalArgumentException("Engine can not be null.");
 		e.print(question + "?\n->)");
 		if (e.get().equals(answer))
 			stats.add(new Stat(1));
@@ -71,6 +80,8 @@ public class DefaultQuestion implements IQuestion {
 
 	@Override
 	public int compareTo(IQuestion arg0) {
+		if (arg0 == null)
+			throw new IllegalArgumentException("Can not compare to a null question.");
 		return (int) (nextTime - arg0.getNextTime());
 	}
 

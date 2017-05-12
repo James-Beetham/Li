@@ -3,27 +3,65 @@ package version_five;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Character tree for linking a list of values to a keyword.
+ * 
+ * @author JamesBeetham
+ *
+ * @param <E>
+ *            element to use as data (contained within a linked list)
+ */
 public class CharTree<E> {
 	private Node root;
 
+	/**
+	 * Constructs a new tree of Characters which link to a list of questions.
+	 */
 	public CharTree() {
 		root = new Node(null, null);
 	}
 
+	/**
+	 * Add an element to the location at String s.
+	 * 
+	 * @param s
+	 *            String to be used as a Character array for location, can't be
+	 *            null
+	 * @param data
+	 *            element to add to the list of values at the location specified
+	 *            by String s
+	 */
 	public void add(String s, E data) {
-		if (s == null || data == null)
-			throw new IllegalArgumentException("String or data was null.");
+		if (s == null)
+			throw new IllegalArgumentException("String can't be null.");
 		find(s).data.add(data);
 	}
 
-	@SuppressWarnings("unchecked")
+	/**
+	 * Returns the list of elements stored at the location specified by String
+	 * s.
+	 * 
+	 * @param s
+	 *            String (array of Characters) used to find the location, can't
+	 *            be null
+	 * @return List of elements at that location
+	 */
 	public List<E> get(String s) {
 		if (s == null)
 			throw new IllegalArgumentException("String was null.");
 		return find(s).data;
 	}
 
+	/**
+	 * Private function for finding the node from a String
+	 * 
+	 * @param s
+	 *            String specifying location
+	 * @return Node that is specified by the location
+	 */
 	private Node find(String s) {
+		if (s == null)
+			throw new IllegalArgumentException("String was null.");
 		Node cur = root;
 		for (Character c : s.toCharArray()) {
 			if (cur.child == null)
@@ -39,6 +77,12 @@ public class CharTree<E> {
 		return cur;
 	}
 
+	/**
+	 * Container class for storing a Character and a LinkedList.
+	 * 
+	 * @author JamesBeetham
+	 *
+	 */
 	private class Node {
 		public Character letter;
 		public LinkedList<E> data;

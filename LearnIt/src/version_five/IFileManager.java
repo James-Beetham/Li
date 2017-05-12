@@ -1,8 +1,15 @@
 package version_five;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 
+/**
+ * Base class for a FileManager: stores a path.
+ * 
+ * @author JamesBeetham
+ *
+ */
 public abstract class IFileManager {
 	protected String path;
 
@@ -10,7 +17,16 @@ public abstract class IFileManager {
 		path = "";
 	}
 
+	/**
+	 * Construct a new FileManager from specified path.
+	 * 
+	 * @param path
+	 *            String specifying the path the FileManager should use to find
+	 *            files
+	 */
 	public IFileManager(String path) {
+		if (path == null)
+			throw new IllegalArgumentException("Path can not be null.");
 		this.path = path;
 		if (!new File(path).exists())
 			throw new IllegalArgumentException("File path [" + path + "] does not exist");
@@ -32,7 +48,7 @@ public abstract class IFileManager {
 	 *            location to load from
 	 * @return array of all the questions
 	 */
-	public abstract List<String> loadPath(String path);
+	public abstract List<String> loadPath(String path) throws FileNotFoundException;
 
 	/**
 	 * Saves the specified array to the default path (or however this is
