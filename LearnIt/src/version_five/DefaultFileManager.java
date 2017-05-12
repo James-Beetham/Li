@@ -14,7 +14,7 @@ import java.util.Scanner;
  * @author JamesBeetham
  *
  */
-public class DefaultFileManager extends IFileManager {
+public class DefaultFileManager extends AbstractFileManager {
 	public DefaultFileManager() {
 		super();
 	}

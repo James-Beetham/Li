@@ -20,7 +20,9 @@ public class DefaultAnalyzer implements IAnalyzer {
 	private LinkedList<IQuestion> questions;
 	private ArrayList<Double> calculatedWeights;
 	private double percent;
-	private static final double MINIMUM_STEP = .005;
+	public static final double MINIMUM_STEP = .005;
+	public static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
+	public static final long MILLIS_IN_A_DECADE = (long) (MILLIS_IN_A_DAY * 365.25 * 10);
 
 	/**
 	 * Constructs an empty analyzer, will not be accurate until more questions
@@ -36,7 +38,7 @@ public class DefaultAnalyzer implements IAnalyzer {
 	}
 
 	/**
-	 * Constructs an anlyzer with base values taken from the array of questions
+	 * Constructs an analyzer with base values taken from the array of questions
 	 * (note the list of questions will not be edited by this class).
 	 * 
 	 * @param percent
@@ -98,19 +100,18 @@ public class DefaultAnalyzer implements IAnalyzer {
 	private void updateWeight(int exposureNumber) {
 		double prevNumber = 1;
 
-		if (numExposureNumber(exposureNumber) < 5 && exposureNumber != 1) {
-			prevNumber = calculatedWeights.get(calculatedWeights.size() - 1).doubleValue();
-			while (calculatedWeights.size() <= exposureNumber)
-				calculatedWeights.add(new Double(prevNumber));
+		if (calculatedWeights.size() <= exposureNumber)
+			for (int i = calculatedWeights.size(); i <= exposureNumber; i++)
+				calculatedWeights.add(new Double(1));
+
+		if (numExposureNumber(exposureNumber) < 1 && exposureNumber != 1) {
+			// Set weight to calculate out to 1 day from now.
+			calculatedWeights.set(exposureNumber, new Double((-1 * MILLIS_IN_A_DAY) / Math.log(percent)));
 			return;
 		}
-		while (calculatedWeights.size() <= exposureNumber)
-			calculatedWeights.add(new Double(prevNumber));
-		if (getStd(exposureNumber, 1) == 0)
-			return;
-		System.out.println("bye");
-		double min = 0 + Double.MIN_NORMAL;
-		double max = Double.MAX_VALUE;
+
+		double min = MILLIS_IN_A_DAY;
+		double max = MILLIS_IN_A_DECADE;
 		double s = max / 2;
 		while (max - min > s * MINIMUM_STEP * 2) {
 			double dif = (s - min) / 2;
@@ -127,6 +128,16 @@ public class DefaultAnalyzer implements IAnalyzer {
 				max = s + dif;
 			}
 		}
+
+		// Conditions that something may be weird with the (small) data. These
+		// are arbitrary tests, but are made so no weird data shows up
+		// (especially with small data).
+		int nums = numExposureNumber(exposureNumber);
+		if (s == MILLIS_IN_A_DECADE && exposureNumber < 10)
+			s *= Math.pow(2, exposureNumber / 10.0);
+		if (s == MILLIS_IN_A_DAY && exposureNumber > 3)
+			s *= exposureNumber - 3;
+
 		calculatedWeights.set(exposureNumber, new Double(s));
 	}
 

@@ -2,6 +2,7 @@ package version_five;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,13 +45,12 @@ public class DefaultEngine implements IEngine {
 		// Instead of "DefaultQuestion", could also be
 		// "version_five.DefaultQuestion"
 		types.add(new Type("DefaultQuestion"));
-		// Add more types here
+		// Add more types here TODO
 
 		for (Type t : types)
 			if (t.equals(new Type(parts[0])))
 				return t.newQuestion(parts[1]);
-		// TODO what when no questions are claimed
-		System.out.println(s);
+		// TODO what happens when no questions are claimed
 		return null;
 	}
 
@@ -58,14 +58,14 @@ public class DefaultEngine implements IEngine {
 	 * Entry point to program.
 	 * 
 	 * @param args
+	 *            arguments for this
 	 */
 	public static void main(String[] args) {
 		DefaultEngine e = new DefaultEngine();
 		DefaultFileManager fm = new DefaultFileManager();
 		CharTree<IQuestion> keywords = new CharTree<IQuestion>();
-		
-			List<String> strQuestions = fm.load();
 
+		List<String> strQuestions = fm.load();
 
 		LinkedList<IQuestion> questions = new LinkedList<IQuestion>();
 		for (String s : strQuestions) {
@@ -86,9 +86,12 @@ public class DefaultEngine implements IEngine {
 				try {
 					double percent = Double.parseDouble(input.substring(3).trim());
 					HashSet<IQuestion> selectedQuestions = new HashSet<IQuestion>();
-					for (String s : selectedKeywords)
+					for (String s : selectedKeywords) {
+						if (s.equals("/all"))
+							selectedQuestions.addAll(questions);
 						for (IQuestion q : keywords.get(s))
 							selectedQuestions.add(q);
+					}
 
 					LinkedList<IQuestion> selectedQuestionsLL = new LinkedList<IQuestion>();
 					for (IQuestion q : selectedQuestions) {
@@ -103,13 +106,14 @@ public class DefaultEngine implements IEngine {
 			} else if (input.startsWith("import")) {
 				try {
 					List<String> qs = fm.loadPath(input.substring(6, input.length()).trim());
-
+					for (String s : qs)
+						questions.add(e.getQuestion(s));
+					e.print("Imported");
 				} catch (FileNotFoundException fnfe) {
-
+					e.print("That path does not seem to exist.");
 				} catch (Exception ex) {
-
+					e.print("import needs to be in the format of \"import school/classes/english/review.txt\". Type \"help\" for more info.");
 				}
-
 			} else if (input.startsWith("select")) {
 				try {
 					input = input.substring(6).trim();
@@ -121,15 +125,39 @@ public class DefaultEngine implements IEngine {
 					selectedKeywords.addAll(toAdd);
 
 					int n = 0;
+					int askable = 0;
 					for (String s : toAdd) {
-						n += keywords.get(s).size();
+						for (IQuestion q : keywords.get(s)) {
+							n++;
+							q.setNextTime(a.nextTime(q));
+							if (q.getNextTime() <= System.currentTimeMillis())
+								askable++;
+						}
 					}
-					e.print("Selected (" + n + ")\n");
+					if (Arrays.asList(input.split(" ")).contains("/all")) {
+						askable = 0;
+						for (IQuestion q : questions) {
+							q.setNextTime(a.nextTime(q));
+							if (q.getNextTime() <= System.currentTimeMillis())
+								askable++;
+						}
+						n = questions.size();
+
+					}
+					e.print("Selected (" + askable + "/" + n + ")\n");
+					// TODO better way of checking for commands.
+					// TODO better information for how many questions actually
+					// need to be asked.
 				} catch (Exception ex) {
 					e.print("select needs to be in the format of \"select [keyword]\".\n");
 				}
-			} else {
-				// TODO show help / list of commands
+			} else if (input.startsWith("clear")) {
+				e.print("Cleared (" + selectedKeywords.size() + ")\n");
+				selectedKeywords = new HashSet<String>();
+			} else if (input.startsWith("help")) {
+				// TODO instructions for how this works
+			} else if (!input.equals("exit")) {
+				e.print("Invalid command. List of commands:\n\tselect (term1) [term2] [term3]...\n\tclear\n\task (percentCorrect)\n\timport (path)\n\thelp\n");
 			}
 		}
 
@@ -156,7 +184,11 @@ public class DefaultEngine implements IEngine {
 		while ((q = list.poll()) != null)
 			while (q.getNextTime() - System.currentTimeMillis() <= 0) {
 				q.ask(e);
-				q.setNextTime(a.nextTime(q));
+				long nextTime;
+				q.setNextTime(nextTime = a.nextTime(q));
+				e.print("[Next time for previous question: " + ((nextTime - System.currentTimeMillis()) / 1000)
+						+ "]\n");
+				// TODO make that printout more attractive.
 				break;
 			}
 

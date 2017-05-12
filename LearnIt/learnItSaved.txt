@@ -7,14 +7,14 @@ version_five.DefaultQuestion	[biology] question6:answer6:
 version_five.DefaultQuestion	[biology] question7:answer7:
 version_five.DefaultQuestion	[science] question8:answer8:
 version_five.DefaultQuestion	[language] question9:answer9:
-version_five.DefaultQuestion	[psychology] question10:answer10:
+version_five.DefaultQuestion	[psychology] question10:answer10:1494621167862,0.0,
 version_five.DefaultQuestion	[language] question11:answer11:
 version_five.DefaultQuestion	question12:answer12:
-version_five.DefaultQuestion	[cs] question13:answer13:1494603954661,1.0,1494604047995,1.0,1494604085625,1.0,
-version_five.DefaultQuestion	[language][psychology] question14:answer14:
-version_five.DefaultQuestion	[psychology][language] question15:answer15:
-version_five.DefaultQuestion	[psychology] question16:answer16:
-version_five.DefaultQuestion	[cs] question17:answer17:1494603956660,0.0,1494604050893,1.0,1494604087256,1.0,
+version_five.DefaultQuestion	[cs] question13:answer13:
+version_five.DefaultQuestion	[language][psychology] question14:answer14:1494621170503,0.0,
+version_five.DefaultQuestion	[psychology][language] question15:answer15:1494621166490,1.0,
+version_five.DefaultQuestion	[psychology] question16:answer16:1494621167362,0.0,
+version_five.DefaultQuestion	[cs] question17:answer17:
 version_five.DefaultQuestion	question18:answer18:
-version_five.DefaultQuestion	[psychology] question19:answer19:
-version_five.DefaultQuestion	[cs] question20:answer20:1494603950897,1.0,1494604046008,1.0,1494604083892,1.0,
+version_five.DefaultQuestion	[psychology] question19:answer19:1494621169324,0.0,
+version_five.DefaultQuestion	[cs] question20:answer20:

@@ -10,10 +10,10 @@ import java.util.List;
  * @author JamesBeetham
  *
  */
-public abstract class IFileManager {
+public abstract class AbstractFileManager {
 	protected String path;
 
-	public IFileManager() {
+	public AbstractFileManager() {
 		path = "";
 	}
 
@@ -24,7 +24,7 @@ public abstract class IFileManager {
 	 *            String specifying the path the FileManager should use to find
 	 *            files
 	 */
-	public IFileManager(String path) {
+	public AbstractFileManager(String path) {
 		if (path == null)
 			throw new IllegalArgumentException("Path can not be null.");
 		this.path = path;
@@ -47,6 +47,8 @@ public abstract class IFileManager {
 	 * @param path
 	 *            location to load from
 	 * @return array of all the questions
+	 * @throws FileNotFoundException
+	 *             if the file is not found
 	 */
 	public abstract List<String> loadPath(String path) throws FileNotFoundException;
 

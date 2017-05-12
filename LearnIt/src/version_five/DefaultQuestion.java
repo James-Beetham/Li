@@ -87,7 +87,8 @@ public class DefaultQuestion implements IQuestion {
 
 	@Override
 	public long getNextTime() {
-		return nextTime;
+		long guessedTime = System.currentTimeMillis() + DefaultAnalyzer.MILLIS_IN_A_DAY * getStats().size();
+		return (nextTime + guessedTime) / 2;
 	}
 
 	@Override

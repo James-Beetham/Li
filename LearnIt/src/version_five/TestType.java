@@ -42,6 +42,12 @@ public class TestType {
 		assertEquals(msg, expected, actual.substring(0, actual.indexOf("@")));
 	}
 
+	/**
+	 * Test class for a basic question.
+	 * 
+	 * @author JamesBeetham
+	 *
+	 */
 	public static class Test1234 implements IQuestion {
 		private String data;
 
