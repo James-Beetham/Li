@@ -36,7 +36,7 @@ public class DefaultQuestion implements IQuestion {
 
 	@Override
 	public void ask(IEngine e) {
-		e.print(question);
+		e.print(question + "?\n->)");
 		if (e.get().equals(answer))
 			stats.add(new Stat(1));
 		else
@@ -45,14 +45,14 @@ public class DefaultQuestion implements IQuestion {
 
 	@Override
 	public String[] getKeywords() {
-		String list = "defaultquestion,default question," + question + "," + answer;
+		String list = "defaultquestion";
 		String questionCopy = question + "";
 		for (int i = 0; i < questionCopy.length(); i++)
 			if (questionCopy.charAt(i) == '[') {
 				String tag = "";
 				for (int j = i + 1; j < questionCopy.length() && questionCopy.charAt(j) != ']'; j++)
 					tag += questionCopy.charAt(j);
-				list += tag;
+				list += "," + tag;
 			}
 		return list.split(",");
 	}
@@ -60,11 +60,13 @@ public class DefaultQuestion implements IQuestion {
 	@Override
 	public String getString() {
 		String stat = "";
-		for (Stat s : stats) {
-			stat += s.toString() + ",";
+		if (stats.size() != 0) {
+			for (Stat s : stats) {
+				stat += s.toString() + ",";
+			}
+			stat.substring(0, stat.length() - 1);
 		}
-		stat.substring(0, stat.length() - 1);
-		return this.getClass().toString().substring(6) + "\t" + answer + ":" + question + ":" + stat;
+		return this.getClass().toString().substring(6) + "\t" + question + ":" + answer + ":" + stat;
 	}
 
 	@Override
@@ -80,6 +82,11 @@ public class DefaultQuestion implements IQuestion {
 	@Override
 	public void setNextTime(long time) {
 		nextTime = time;
+	}
+
+	@Override
+	public String toString() {
+		return getString();
 	}
 
 }

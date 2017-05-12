@@ -42,5 +42,5 @@ public abstract class IFileManager {
 	 *            array of strings to save
 	 * @return true if saved
 	 */
-	public abstract boolean save(String[] arr);
+	public abstract boolean save(List<String> arr);
 }

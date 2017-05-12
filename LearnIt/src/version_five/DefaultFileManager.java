@@ -20,7 +20,7 @@ public class DefaultFileManager extends IFileManager {
 		return loadPath(path + "learnItSaved.txt");
 	}
 
-	public boolean save(String[] arr) {
+	public boolean save(List<String> arr) {
 		try {
 			PrintWriter pw = new PrintWriter(new File(path + "learnItSaved.txt"));
 			for (String s : arr)

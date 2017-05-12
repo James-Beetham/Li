@@ -1,0 +1,20 @@
+DefaultQuestion	[science] question1:answer1
+DefaultQuestion	[science] question2:answer2
+DefaultQuestion	[science] question3:answer3
+DefaultQuestion	[language] question4:answer4
+DefaultQuestion	[language] question5:answer5
+DefaultQuestion	[biology] question6:answer6
+DefaultQuestion	[biology] question7:answer7
+DefaultQuestion	[science] question8:answer8
+DefaultQuestion	[language] question9:answer9
+DefaultQuestion	[psychology] question10:answer10
+DefaultQuestion	[language] question11:answer11
+DefaultQuestion	question12:answer12
+DefaultQuestion	[cs] question13:answer13
+DefaultQuestion	[language][psychology] question14:answer14
+DefaultQuestion	[psychology][language] question15:answer15
+DefaultQuestion	[psychology] question16:answer16
+DefaultQuestion	[cs] question17:answer17
+DefaultQuestion	question18:answer18
+DefaultQuestion	[psychology] question19:answer19
+DefaultQuestion	[cs] question20:answer20:

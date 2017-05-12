@@ -45,7 +45,7 @@ public class DefaultAnalyzer implements IAnalyzer {
 	public long nextTime(IQuestion q) {
 		int exposureNumber = q.getStats().size();
 		if (exposureNumber <= 0) {
-			return 0;
+			return System.currentTimeMillis();
 		}
 		updateWeight(exposureNumber);
 		long oldTime = q.getStats().get(exposureNumber - 1).getTime();
