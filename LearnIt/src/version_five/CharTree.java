@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 public class CharTree<E> {
 	private Node root;
+
 	public CharTree() {
 		root = new Node(null, null);
 	}
@@ -37,6 +38,7 @@ public class CharTree<E> {
 		public LinkedList<E> data;
 		public Node child;
 		public Node next;
+
 		public Node(Character letter, E data) {
 			child = null;
 			next = null;
@@ -46,4 +48,14 @@ public class CharTree<E> {
 				this.data.add(data);
 		}
 	}
+
+	public String toString() {
+		String output = "";
+		String tabs = "";
+		
+		
+		// TODO
+		return output;
+	}
+	
 }

@@ -2,6 +2,7 @@ package version_five;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Analyzes stats from a bunch of questions, predicting when the question needs
@@ -25,16 +26,16 @@ public class DefaultAnalyzer implements IAnalyzer {
 		setup(percent, new LinkedList<IQuestion>());
 	}
 
-	public DefaultAnalyzer(double percent, LinkedList<IQuestion> questions) {
+	public DefaultAnalyzer(double percent, List<IQuestion> questions) {
 		setup(percent, questions);
 	}
 
-	private void setup(double percent, LinkedList<IQuestion> questions) {
+	private void setup(double percent, List<IQuestion> questions) {
 		if (percent > 1 || percent < 0)
 			throw new IllegalArgumentException("Percent needs to be between 0 and 1, but was: " + percent);
 
 		this.percent = percent;
-		this.questions = questions;
+		this.questions = new LinkedList<IQuestion>(questions);
 		calculatedWeights = new ArrayList<Double>();
 		calculatedWeights.add(new Double(1));
 		updateWeights();

@@ -46,7 +46,14 @@ public class DefaultQuestion implements IQuestion {
 	@Override
 	public String[] getKeywords() {
 		String list = "defaultquestion,default question," + question + "," + answer;
-		// TODO add more things to the list
+		String questionCopy = question + "";
+		for (int i = 0; i < questionCopy.length(); i++)
+			if (questionCopy.charAt(i) == '[') {
+				String tag = "";
+				for (int j = i + 1; j < questionCopy.length() && questionCopy.charAt(j) != ']'; j++)
+					tag += questionCopy.charAt(j);
+				list += tag;
+			}
 		return list.split(",");
 	}
 

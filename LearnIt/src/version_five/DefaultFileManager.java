@@ -4,10 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class DefaultFileManager extends IFileManager {
-	private String path;
 	public DefaultFileManager() {
 		super();
 	}
@@ -16,7 +16,7 @@ public class DefaultFileManager extends IFileManager {
 		super(path);
 	}
 
-	public String[] load() {
+	public List<String> load() {
 		return loadPath(path + "learnItSaved.txt");
 	}
 
@@ -32,16 +32,17 @@ public class DefaultFileManager extends IFileManager {
 		}
 	}
 
-	public String[] loadPath(String path) {
+	public List<String> loadPath(String path) {
 		try {
 			Scanner scan = new Scanner(new File(path));
 			ArrayList<String> arr = new ArrayList<String>();
 			while (scan.hasNextLine())
 				arr.add(scan.nextLine());
 			scan.close();
-			return (String[]) arr.toArray();
+			return arr;
 		} catch (FileNotFoundException e) {
-			throw new IllegalArgumentException("File does not exist: " + path);
+			throw new IllegalArgumentException(
+					"File does not exist: [" + path + "] searching in : " + new File("").getAbsolutePath());
 		}
 	}
 }

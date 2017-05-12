@@ -1,12 +1,15 @@
 package version_five;
 
 import java.io.File;
+import java.util.List;
 
 public abstract class IFileManager {
 	protected String path;
+
 	public IFileManager() {
 		path = "";
 	}
+
 	public IFileManager(String path) {
 		this.path = path;
 		if (!new File(path).exists())
@@ -20,7 +23,8 @@ public abstract class IFileManager {
 	 * 
 	 * @return array of all the questions (as strings)
 	 */
-	public abstract String[] load();
+	public abstract List<String> load();
+
 	/**
 	 * Loads the specified path.
 	 * 
@@ -28,7 +32,8 @@ public abstract class IFileManager {
 	 *            location to load from
 	 * @return array of all the questions
 	 */
-	public abstract String[] loadPath(String path);
+	public abstract List<String> loadPath(String path);
+
 	/**
 	 * Saves the specified array to the default path (or however this is
 	 * implemented).
