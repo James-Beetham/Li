@@ -7,11 +7,11 @@ import java.util.TreeMap;
 /**
  * Object storing all of the notes for the program. TODO get and set functions
  * 
- * @author JamesBeetham
+ * @author James-Beetham
  */
 public class Notes {
 	public static void main(String[] args) {
-
+		
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class Notes {
 	/**
 	 * Stores the note information.
 	 * 
-	 * @author JamesBeetham
+	 * @author James-Beetham
 	 *
 	 */
 	private class Note {
@@ -78,7 +78,7 @@ public class Notes {
 	/**
 	 * Records a specific time and other information.
 	 * 
-	 * @author james
+	 * @author James-Beetham
 	 *
 	 */
 	private class Record {
