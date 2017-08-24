@@ -7,6 +7,11 @@ import java.util.ArrayList;
  * Weights update as questions are answered - questions are not removed from the
  * queue (they cycle).
  * 
+ * TODO add support for threads (make the list a linked list), implement
+ * toAddQueue thread, and a recursive weight updater thread - add weight checker
+ * by creating a new chartree for keywords, finish constructor (weight the
+ * questions as they come in)
+ * 
  * @author James-Beetham
  *
  */
@@ -35,6 +40,7 @@ public class QuestionList {
 	}
 
 	private ArrayList<IQuestion> questions;
+	private FileManager fm;
 
 	/**
 	 * Constructs a new QuestionList using the paths specified. Each path points to
@@ -43,13 +49,13 @@ public class QuestionList {
 	 * @param paths
 	 *            list of paths of notes to add to the queue
 	 */
-	public QuestionList(ArrayList<String> paths) {
+	public QuestionList(FileManager fm, ArrayList<String> paths) {
 		questions = new ArrayList<IQuestion>();
+		this.fm = fm;
 
-		// TODO go through each path and add all files to an arraylist, then go through
-		// all files and add all notes to an arraylist, then go through all notes and
-		// add those questions to the questions arraylist.
-		// TODO start up thread that weights (and re-weights) questions
+		for (String path : paths)
+			for (String note : fm.getFile(path))
+				questions.addAll(generateQuestions(note));
 	}
 
 	/**
