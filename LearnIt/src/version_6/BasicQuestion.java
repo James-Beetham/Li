@@ -1,51 +1,65 @@
 package version_6;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * TODO make it easy to add different types of questions (to discuss).
  * 
- * Stores a question and all the records for the question. Also stores the hash
- * of Note this Question was generated from.
  * 
  * @author James-Beetham
  *
  */
-public class Question {
+public class BasicQuestion implements IQuestion {
 	protected String noteHash;
+	protected String question;
 	protected ArrayList<Record> records;
 
-	// TODO constructor from note that constructs multiple questions for the one
-	// note (static function that returns a list of questions?)
-
 	/**
-	 * Constructs a new question from given data.
+	 * Constructs a new question from given data. isValid method should return false
+	 * if the data entered is not valid.
 	 * 
 	 * @param data
+	 *            source text from the note
 	 */
-	public Question(String data) {
-		// TODO parse String returned by toString()
+	public BasicQuestion(String data) {
+		if (data == null) {
+			noteHash = null;
+			records = null;
+			question = null;
+		}
+		noteHash = Note.genHash(data);
+		records = new ArrayList<Record>();
+		question = data;
+		// TODO parse String if it's input text versus a note's text?
 	}
 
-	/**
-	 * Adds a new record to this question.
-	 * 
-	 * @param input
-	 *            what the user answered
-	 * @return how correct they were
-	 */
+	public boolean isValid() {
+		return noteHash == null || records == null || question == null;
+	}
+
+	public String ask() {
+		return question;
+	}
+
 	public double addRecord(String input) {
 		records.add(new Record(input));
 		return getCorrectness(input);
 	}
 
+	/**
+	 * Determines how correct the input is.
+	 * 
+	 * @param input
+	 *            String the user entered
+	 * @return number between -1 and 1 where 1 is correct and -1 is incorrect
+	 */
 	protected double getCorrectness(String input) {
-		// TODO determine how correct the input is.
 		return -1;
 	}
 
 	@Override
 	public String toString() {
+		// TODO convert to string for storage
 		return null;
 	}
 

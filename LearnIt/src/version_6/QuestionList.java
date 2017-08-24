@@ -10,18 +10,41 @@ import java.util.ArrayList;
  * @author James-Beetham
  *
  */
-public class QuestionQueue {
-	private ArrayList<Question> questions;
+public class QuestionList {
+	/**
+	 * Generates a list of questions from a note's source text. Implement new
+	 * question types here.
+	 * 
+	 * @param noteSource
+	 *            String of the note's text
+	 * @return list of questions
+	 */
+	public ArrayList<IQuestion> generateQuestions(String noteSource) {
+		ArrayList<IQuestion> arr = new ArrayList<IQuestion>();
+		arr.add(new BasicQuestion(noteSource));
+
+		// Example: arr.add([construct your child of IQuestion here]);
+		// TODO add more types of questions here.
+
+		ArrayList<IQuestion> output = new ArrayList<IQuestion>();
+		for (IQuestion q : arr) {
+			if (q.isValid())
+				output.add(q);
+		}
+		return output;
+	}
+
+	private ArrayList<IQuestion> questions;
 
 	/**
-	 * Constructs a new QuestionQueue using the paths specified. Each path points to
+	 * Constructs a new QuestionList using the paths specified. Each path points to
 	 * a folder or file.
 	 * 
 	 * @param paths
 	 *            list of paths of notes to add to the queue
 	 */
-	public QuestionQueue(ArrayList<String> paths) {
-		questions = new ArrayList<Question>();
+	public QuestionList(ArrayList<String> paths) {
+		questions = new ArrayList<IQuestion>();
 
 		// TODO go through each path and add all files to an arraylist, then go through
 		// all files and add all notes to an arraylist, then go through all notes and

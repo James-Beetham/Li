@@ -22,8 +22,7 @@ public class Note {
 	}
 
 	public String getHash() {
-		// TODO generate hash from text
-		return null;
+		return Note.genHash(text);
 	}
 
 	public String getText() {
@@ -40,5 +39,17 @@ public class Note {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	/**
+	 * Converts a String to an int. Used to link note text and questions.
+	 * 
+	 * @param source
+	 *            source text (of the note)
+	 * @return an int
+	 */
+	public static String genHash(String source) {
+		// String incase of a change to sha1, md5, or source text.
+		return "" + source.hashCode();
 	}
 }
