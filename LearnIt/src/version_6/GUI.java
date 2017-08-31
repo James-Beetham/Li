@@ -1,96 +1,103 @@
 package version_6;
 
-import java.awt.Dimension;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JPanel;
 
 public class GUI {
-	
+
 	static boolean ClassButtonPressed = false;
 	static boolean ClassCreatorButtonPressed = false;
 	static String ClassToAdd = null;
 
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException, IOException {
 
 		new File(System.getProperty("user.home") + "/.LearnIt").mkdir();
 		File classLocations = new File(System.getProperty("user.home") + "/.LearnIt");
-		JFrame frame = new JFrame();
-		frame.setSize(new Dimension(1000, 1000));
-		String[] listOfClasses = classLocations.list();
-		JButton createClassButton = new JButton("Create Class");
-		createClassButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ClassCreatorButtonPressed = true;
-			}
-		});
-		JButton chooseClassButton = new JButton("Choose Class");
-		chooseClassButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ClassButtonPressed = true;
-			}
-		});
-		frame.add(chooseClassButton);
-		frame.add(createClassButton);
-		chooseClassButton.setSize(new Dimension(100, 30));
-		createClassButton.setSize(new Dimension(100, 30));
+
+		JFrame frame = new JFrame("A Simple GUI");
 		frame.setVisible(true);
-		while (true) {
-			if (ClassButtonPressed) {
-				JFrame classSelector = new JFrame();
-				classSelector.setSize(new Dimension(1000, 1000));
-				ArrayList<JButton> classButtons = new ArrayList<JButton>();
-				System.out.println("pre-loop");
-				for (int i = 0; i < listOfClasses.length; ++i) {
-					classButtons.add(new JButton(listOfClasses[i]));
-				}
-				for (JButton button : classButtons) {
-					button.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							ClassToAdd = listOfClasses[classButtons.indexOf(button)];
-						}
-					});
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(700, 700);
+		frame.setLocation(430, 100);
 
-					classSelector.add(button);
-				}
+		JPanel panel = new JPanel();
+		//panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-				System.out.println("post-loop");
-				classSelector.setVisible(true);
-				ClassButtonPressed = false;
+		frame.add(panel);
+
+		String[] choices = { "Import", "Export", "Delete", "Add" };
+
+		final JComboBox<String> cb = new JComboBox<String>(choices);
+		cb.setMaximumSize(cb.getPreferredSize());
+		cb.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		panel.add(cb);
+		
+		JMenu menu = new JMenu();
+		Container pane = frame.getContentPane();
+		GroupLayout layout = new GroupLayout(frame.getContentPane());
+		ParallelGroup pg = layout.createParallelGroup(GroupLayout.Alignment.LEADING, true);
+		pane.setLayout(layout);
+		
+		JButton btn = new JButton("OK");
+		btn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(cb.getSelectedItem());
+				// TODO What happens when it runs
 			}
-			else if(ClassCreatorButtonPressed)
-			{
-				JFrame classCreator = new JFrame();
-				classCreator.setSize(500, 500);
-				JButton submit = new JButton("Submit");
-				JTextField className = new JTextField();
-				submit.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						new File(System.getProperty("user.home") + "/.LearnIt/" + className.getText()).mkdir();
-						String[] listOfClasses = classLocations.list();
-						classCreator.dispatchEvent(new WindowEvent(classCreator, WindowEvent.WINDOW_CLOSING));
-						
+		});
+		btn.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		panel.add(btn);
+
+		ArrayList<String> savedSession = new ArrayList<String>();
+		
+		JButton tempBtn;
+		ModifiedMouseListener tempML;
+		ModifiedActionListener tempAL;
+		for (int i = 0; i < classLocations.list().length; i++) {
+			tempBtn = new JButton(classLocations.list()[i]);
+			tempAL = new ModifiedActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					savedSession.add(text);
+					getButton().setContentAreaFilled(!getButton().isContentAreaFilled());
+					getButton().setBackground(Color.BLUE);
 					}
-				});
-				submit.setSize(new Dimension(100, 30));
-				className.setSize(new Dimension(100, 30));
-				classCreator.add(submit);
-				classCreator.add(className);
-				classCreator.setVisible(true);
-				ClassCreatorButtonPressed = false;
-			}
-			Thread.sleep(10);
+			};
+			
+			tempAL.setButton(tempBtn);
+			tempAL.setText(classLocations.list()[i]);
+			tempBtn.addActionListener(tempAL);
+			tempBtn.setAlignmentX(Component.LEFT_ALIGNMENT);
+			tempBtn.setBorderPainted(false);
+			tempBtn.setFocusPainted(false);
+			tempBtn.setContentAreaFilled(false);
+			pg.addComponent(panel).addComponent(tempBtn);
 		}
+		layout.setVerticalGroup(pg);
+
+	    JLabel label = new JLabel("Label");
+	    JButton b2 = new JButton("Second Button");
+
+	    layout.setHorizontalGroup(layout
+	        .createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(label)
+	        .addComponent(b2));
 
 	}
 
