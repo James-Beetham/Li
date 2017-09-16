@@ -1,10 +1,9 @@
 package version_6;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 
 //w w w .java  2s. c  om
@@ -12,9 +11,10 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 public class GUI2 {
 	public static void main(String[] args) {
@@ -31,13 +31,16 @@ public class GUI2 {
 		JLabel label = new JLabel("Label");
 		JButton b2 = new JButton("Second Button");
 
+		JPanel pane = new JPanel();
+		
 		JButton tempBtn;
 		ModifiedMouseListener tempML;
 		ModifiedActionListener tempAL;
 		ParallelGroup pgFileList = groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING);
 		SequentialGroup sgFileList = groupLayout.createSequentialGroup();
-
-		for (int i = 0; i < classLocations.list().length; i++) {
+	
+		int i = 0;
+		for (; i < classLocations.list().length; i++) {
 			tempBtn = new JButton(classLocations.list()[i]);
 			tempAL = new ModifiedActionListener() {
 				@Override
@@ -54,10 +57,17 @@ public class GUI2 {
 			tempBtn.setBorderPainted(false);
 			tempBtn.setFocusPainted(false);
 			tempBtn.setContentAreaFilled(false);
-			pgFileList.addComponent(tempBtn, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE);
-			sgFileList.addComponent(tempBtn);
+			tempBtn.setSize(new Dimension(100, 50));
+			pane.add(tempBtn);
 		}
 		
+		pane.setPreferredSize(new Dimension(80, i * 28));
+		JScrollPane scrollPane = new JScrollPane(pane);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setPreferredSize(new Dimension(100, 100));
+		pgFileList.addComponent(scrollPane, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE);
+		sgFileList.addComponent(scrollPane);
 		
 		JLabel lab = new JLabel("1");
 		JLabel lab2 = new JLabel("2");
